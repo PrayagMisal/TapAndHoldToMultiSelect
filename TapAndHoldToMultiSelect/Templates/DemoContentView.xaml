@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="TapAndHoldToMultiSelect.Templates.DemoContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:TapAndHoldToMultiSelect.Models"
+    x:Name="This"
+    x:DataType="models:DemoModel">
+    <Grid Padding="5" Background="White">
+        <Frame>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="{Binding Name}">
+                    <Label.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Source={x:Reference This}, Path=IsSelected}"
+                            TargetType="Label"
+                            Value="True">
+                            <Setter Property="TextColor" Value="White" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <!--  CheckMark path icon if item is selected  -->
+                <Path
+                    Aspect="Uniform"
+                    HeightRequest="25"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    WidthRequest="25">
+                    <Path.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Source={x:Reference This}, Path=IsSelected}"
+                            TargetType="Path"
+                            Value="True">
+                            <Setter Property="Data" Value="M204.288,0C91.648,0,0,91.648,0,204.288s91.648,204.288,204.288,204.288s204.288-91.648,204.288-204.288    S316.928,0,204.288,0z M318.464,150.528l-130.56,129.536c-7.68,7.68-19.968,8.192-28.16,0.512L90.624,217.6    c-8.192-7.68-8.704-20.48-1.536-28.672c7.68-8.192,20.48-8.704,28.672-1.024l54.784,50.176L289.28,121.344    c8.192-8.192,20.992-8.192,29.184,0C326.656,129.536,326.656,142.336,318.464,150.528z" />
+                            <Setter Property="Fill" Value="White" />
+                        </DataTrigger>
+                    </Path.Triggers>
+                </Path>
+            </Grid>
+            <Frame.Triggers>
+                <DataTrigger
+                    Binding="{Binding Source={x:Reference This}, Path=IsSelected}"
+                    TargetType="Frame"
+                    Value="True">
+                    <Setter Property="BackgroundColor" Value="#50ba62" />
+                </DataTrigger>
+            </Frame.Triggers>
+        </Frame>
+    </Grid>
+</ContentView>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TapAndHoldToMultiSelect.Views.HomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:TapAndHoldToMultiSelect.Models"
+    xmlns:templates="clr-namespace:TapAndHoldToMultiSelect.Templates"
+    xmlns:viewModels="clr-namespace:TapAndHoldToMultiSelect.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="viewModels:HomeViewModel">
+    <ContentPage.Resources>
+        <Style TargetType="templates:DemoContentView">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="IsSelected" Value="True" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
+        <Label
+            Margin="0,10"
+            FontSize="Large"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Press and hold to select multiple items" />
+        <CollectionView
+            x:Name="CollectionDemo"
+            Grid.Row="1"
+            ItemsSource="{Binding DemoItems}"
+            SelectedItems="{Binding SelectedItems}"
+            SelectionChangedCommand="{Binding SelectionChanged}"
+            SelectionMode="{Binding SelectionMode}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:DemoModel">
+                    <templates:DemoContentView xct:TouchEffect.LongPressCommand="{Binding BindingContext.ItemLongPressed, Source={x:Reference CollectionDemo}}" xct:TouchEffect.LongPressCommandParameter="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--  Number of selected items count  -->
+        <Label
+            Grid.Row="2"
+            HorizontalOptions="Center"
+            Text="{Binding SelectedItemsCount, StringFormat='Number of selected items is {0}'}" />
+        <!--  Cancel multiselection button  -->
+        <Button
+            Grid.Row="3"
+            Command="{Binding CancelCommand}"
+            Text="Cancel" />
+    </Grid>
+</ContentPage>
